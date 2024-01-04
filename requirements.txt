@@ -22,10 +22,11 @@ natsort
 pillow
 psutil
 pymongo
-pyrogram
+PyroFork==2.3.10
 python-dotenv
 python-magic
 qbittorrent-api
+speedtest-cli
 requests
 telegraph
 tenacity
@@ -34,4 +35,3 @@ urllib3
 uvloop
 xattr
 yt-dlp
-speedtest-cli
