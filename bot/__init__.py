@@ -211,6 +211,7 @@ if len(USER_SESSION_STRING) != 0:
         max_concurrent_transmissions=10,
     ).start()
     IS_PREMIUM_USER = user.me.is_premium
+    info(f"Berhasil login ke @{user.me.username}...")
 else:
     IS_PREMIUM_USER = False
     user = ""
