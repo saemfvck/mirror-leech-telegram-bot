@@ -40,5 +40,4 @@ class _BotCommands:
         self.RssCommand = f"rss{CMD_SUFFIX}"
         self.SpeedCommand = f"speedtest{CMD_SUFFIX}"
 
-BotCommands = _Bot
-Commands()
+BotCommands = _BotCommands()
