@@ -56,7 +56,7 @@ from .modules import (
     users_settings,
     bot_settings,
     help,
-    speedtest
+    speedtest,
 )
 
 
