@@ -3,6 +3,8 @@ from aiofiles.os import path as aiopath, listdir, makedirs
 from html import escape
 from aioshutil import move
 from asyncio import sleep, Event, gather
+from datetime import datetime
+from time import time
 
 from bot.helper.ext_utils.status_utils import get_readable_file_size
 from bot.helper.ext_utils.bot_utils import sync_to_async
@@ -236,7 +238,8 @@ class TaskListener(TaskConfig):
             and DATABASE_URL
         ):
             await DbManger().rm_complete_task(self.message.link)
-        msg = f"<b>Nama: </b><code>{escape(self.name)}</code>\n<b>┌ 🧩Size: </b>{get_readable_file_size(size)}"
+        msg = f"<blockquote><b>Nama: </b><code>{escape(self.name)}</code></blockquote>\n<b>┌ 🧩Size: </b>{get_readable_file_size(size)}"
+        msg += f"\n<b> ├ ⌛Elapsed:</b> {get_readable_time(time() - self.message.date.timestamp())}"
         LOGGER.info(f"Task Done: {self.name}")
         if self.isLeech:
             msg += f"\n<b>├ 🐾Total Files: </b>{folders}"
