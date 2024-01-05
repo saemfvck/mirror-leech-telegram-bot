@@ -22,7 +22,7 @@ from .helper.ext_utils.jdownloader_booter import jdownloader
 from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.files_utils import clean_all, exit_clean_up
 from .helper.ext_utils.bot_utils import cmd_exec, sync_to_async, create_help_buttons
-from .helper.ext_utils.status_utils import get_readable_file_size, get_readable_time
+from .helper.ext_utils.status_utils import get_readable_file_size, get_readable_time, get_progress_bar_string
 from .helper.ext_utils.db_handler import DbManger
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, editMessage, sendFile
