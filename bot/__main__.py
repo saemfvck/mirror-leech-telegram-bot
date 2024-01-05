@@ -146,7 +146,7 @@ async def send_sys_stats(_, query):
     await query.message.edit_text(sys_stats, reply_markup=sbtns)
 
 
-async def send_creadit(_, query)
+async def send_creadit(_, query):
    buttons = ButtonMaker()
    creadit, _ = await stats(_, query.message, edit_mode=True)
    buttons.ibutton("Bot Stats", "show_bot_stats")
