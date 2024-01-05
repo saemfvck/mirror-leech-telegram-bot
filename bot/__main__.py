@@ -108,7 +108,7 @@ async def stats(_, message, edit_mode=False):
                 f'<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n' \
                 f'<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>'
 
-    creadit = f'<b>Creadit </b>\n\n'\
+    sys_creadit = f'<b>Creadit </b>\n\n'\
               f'<b>Base Repo </b>\n'\
               f'<blockquote><b>┌ Anas</b> \n<b>└ Github :</b><code>https://github.com/anasty17</code></blockquote>\n\n'\
               f'<b>Edit & Modded </b>\n'\
@@ -116,19 +116,19 @@ async def stats(_, message, edit_mode=False):
  
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Creadit", "show_creadit")
+    buttons.ibutton("Creadit", "show_sys_creadit")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     if not edit_mode:
         await message.reply(bot_stats, reply_markup=sbtns)
-    return bot_stats, sys_stats
+    return bot_stats, sys_stats, sys_creadit
 
 
 async def send_bot_stats(_, query):
     buttons = ButtonMaker()
     bot_stats, _ = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Creadit", "show_creadit")
+    buttons.ibutton("Creadit", "show_sys_creadit")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
@@ -139,22 +139,22 @@ async def send_sys_stats(_, query):
     buttons = ButtonMaker()
     _, sys_stats = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Bot Stats",  "show_bot_stats")
-    buttons.ibutton("Creadit", "show_creadit")
+    buttons.ibutton("Creadit", "show_sys_creadit")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
     await query.message.edit_text(sys_stats, reply_markup=sbtns)
 
 
-async def send_creadit(_, query):
+async def send_sys_creadit(_, query):
    buttons = ButtonMaker()
-   creadit, _ = await stats(_, query.message, edit_mode=True)
+   _, sys_creadit = await stats(_, query.message, edit_mode=True)
    buttons.ibutton("Bot Stats", "show_bot_stats")
    buttons.ibutton("Sys Stats", "show_sys_stats")
    buttons.ibutton("Close", "close_signal")
    sbtns = buttons.build_menu(2)
     await query.answer()
-    await query.message.edit_text(creadit, reply_markup=sbtns)
+    await query.message.edit_text(sys_creadit, reply_markup=sbtns)
 
 
 async def send_close_signal(_, query):
