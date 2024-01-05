@@ -60,7 +60,6 @@ from .modules import (
 )
 
 
-async def stats(_, message):
 async def stats(_, message, edit_mode=False):
     buttons = ButtonMaker()
     sysTime     = get_readable_time(time() - boot_time())
