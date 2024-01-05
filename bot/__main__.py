@@ -108,6 +108,13 @@ async def stats(_, message, edit_mode=False):
                 f'<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n' \
                 f'<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>'
 
+    creadit = f'<b>Creadit </b>\n\n'\
+              f'<b>Base Repo </b>\n'\
+              f'<blockquote><b>┌ Anas</b> \n<b>└ Github :</b><code>https://github.com/anasty17</code></blockquote>\n\n'\
+              f'<b>Edit & Modded </b>\n'
+              f'<blockquote><b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b> \n<b>├ Github :</b><code>https://github.com/saemfvck</code> \n<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n<b>└ Github :</b><code>https://github.com/ZeynDev<code></blockquote>\n'
+ 
+
     buttons.ibutton("Sys Stats",  "show_sys_stats")
     buttons.ibutton("Creadit", "show_creadit")
     buttons.ibutton("Close", "close_signal")
@@ -141,11 +148,7 @@ async def send_sys_stats(_, query):
 
 async def send_creadit(_, query)
    buttons = ButtonMaker()
-   creadit = f'<b>Creadit </b>\n\n'\
-             f'<b>Base Repo </b>\n'\
-             f'<blockquote><b>┌ Anas</b> \n<b>└ Github :</b><code>https://github.com/anasty17</code></blockquote>\n\n'\
-             f'<b>Edit & Modded </b>\n'
-             f'<blockquote><b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b> \n<b>├ Github :</b><code>https://github.com/saemfvck</code> \n<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n<b>└ Github :</b><code>https://github.com/ZeynDev<code></blockquote>\n'
+   creadit, _ = await stats(_, query.message, edit_mode=True)
    buttons.ibutton("Bot Stats", "show_bot_stats")
    buttons.ibutton("Sys Stats", "show_sys_stats")
    buttons.ibutton("Close", "close_signal")
