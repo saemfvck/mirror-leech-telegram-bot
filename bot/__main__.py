@@ -153,8 +153,8 @@ async def send_sys_creadit(_, query):
    buttons.ibutton("Sys Stats", "show_sys_stats")
    buttons.ibutton("Close", "close_signal")
    sbtns = buttons.build_menu(2)
-    await query.answer()
-    await query.message.edit_text(sys_creadit, reply_markup=sbtns)
+   await query.answer()
+   await query.message.edit_text(sys_creadit, reply_markup=sbtns)
 
 
 async def send_close_signal(_, query):
