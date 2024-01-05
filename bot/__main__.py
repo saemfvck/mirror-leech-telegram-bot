@@ -139,7 +139,7 @@ async def send_sys_stats(_, query):
     buttons = ButtonMaker()
     _, sys_stats = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Bot Stats",  "show_bot_stats")
-    buttons.ibutton("Creadit", "show_sys_credit")
+    buttons.ibutton("Credit", "show_sys_credit")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
