@@ -245,7 +245,7 @@ class TaskListener(TaskConfig):
             msg += f"\n<b>├ 🐾Total Files: </b>{folders}"
             if mime_type != 0:
                 msg += f"\n<b>├ 💩File Korup: </b>{mime_type}"
-            msg += f"\n<b>└ 👤By: </b>{self.tag}"
+            msg += f"\n<b>└ 👤By: </b>{self.tag}\n\n"
             if not files:
                 await sendMessage(self.message, msg)
             else:
