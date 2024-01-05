@@ -82,45 +82,45 @@ async def stats(_, message, edit_mode=False):
     mem_p       = memory.percent
     swap        = swap_memory()
 
-    bot_stats = f'<b><i><u>Mirrorin Bot Statistics</u></i></b>\n\n'\
-                f'<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n' \
-                f'<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n' \
-                f'<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n' \
-                f'<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n' \
-                f'<code>┌ Bot Uptime      : </code> {botTime}\n' \
-                f'<code>├ Uploaded        : </code> {sent}\n' \
-                f'<code>├ Downloaded      : </code> {recv}\n' \
-                f'<code>└ Total Bandwidth : </code> {tb}'
+    bot_stats = f"<b>Mirrorin Bot Statistics</b>\n\n"\
+                f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" \
+                f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" \
+                f"<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n" \
+                f"<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n" \
+                f"<code>┌ Bot Uptime      : </code> {botTime}\n" \
+                f"<code>├ Uploaded        : </code> {sent}\n" \
+                f"<code>├ Downloaded      : </code> {recv}\n" \
+                f"<code>└ Total Bandwidth : </code> {tb}"
 
-    sys_stats = f'<b><i><u>Mirrorin System Statistics</u></i></b>\n\n'\
-                f'<b>┌ System Uptime:</b> <code>{sysTime}</code>\n' \
-                f'<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n' \
-                f'<b>├ CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n' \
-                f'<b>├ P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | ' \
-                f'<b>V-Core(s):</b> <code>{v_core}</code>\n' \
-                f'<b>└ Frequency:</b> <code>{frequency} GHz</code>\n\n' \
-                f'<b>┌ RAM:</b> {get_progress_bar_string(mem_p)}<code> {mem_p}%</code>\n' \
-                f'<b>└ Total:</b> <code>{get_readable_file_size(memory.total)}</code> | ' \
-                f'<b>Free:</b> <code>{get_readable_file_size(memory.available)}</code>\n\n' \
-                f'<b>┌ SWAP:</b> {get_progress_bar_string(swap.percent)}<code> {swap.percent}%</code>\n' \
-                f'<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | ' \
-                f'<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n' \
-                f'<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n' \
-                f'<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>'
+    sys_stats = f"<b>Mirrorin System Statistics</b>\n\n"\
+                f"<b>┌ System Uptime:</b> <code>{sysTime}</code>\n" \
+                f"<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n" \
+                f"<b>├ CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n" \
+                f"<b>├ P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | " \
+                f"<b>V-Core(s):</b> <code>{v_core}</code>\n" \
+                f"<b>└ Frequency:</b> <code>{frequency} GHz</code>\n\n" \
+                f"<b>┌ RAM:</b> {get_progress_bar_string(mem_p)}<code> {mem_p}%</code>\n" \
+                f"<b>└ Total:</b> <code>{get_readable_file_size(memory.total)}</code> | " \
+                f"<b>Free:</b> <code>{get_readable_file_size(memory.available)}</code>\n\n" \
+                f"<b>┌ SWAP:</b> {get_progress_bar_string(swap.percent)}<code> {swap.percent}%</code>\n" \
+                f"<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | " \
+                f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" \
+                f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" \
+                f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>"
 
-    sys_credit = f''''
+    sys_credit = f"""
                  <blockquote>
-                 <b>Credit </b>\n\n
-                 <b>Base Repo </b>\n
-                 <b>┌ Anas</b>\n
-                 <b>└ Github :</b>[Here](https://github.com/anasty17)\n\n\
-                 <b>Edit & Modded </b>\n
-                 <b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>\n
-                 <b>├ Github :</b>[Here](https://github.com/saemfvck)\n
-                 <b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n
-                 <b>└ Github :</b>[Here](https://github.com/ZeynDev)\n
+                 <b>Credit </b>
+                 <b>Base Repo </b>
+                 <b>┌ Anas</b>
+                 <b>└ Github :</b>[Here](https://github.com/anasty17)
+                 <b>Edit & Modded </b>
+                 <b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>
+                 <b>├ Github :</b>[Here](https://github.com/saemfvck)
+                 <b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>
+                 <b>└ Github :</b>[Here](https://github.com/ZeynDev)
                  </blockquote>
-                 ''''
+                 """
  
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
