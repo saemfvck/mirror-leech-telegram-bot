@@ -211,7 +211,6 @@ if len(USER_SESSION_STRING) != 0:
         max_concurrent_transmissions=10,
     ).start()
     IS_PREMIUM_USER = user.me.is_premium
-    info(f"Berhasil login ke @{user.me.username}...")
 else:
     IS_PREMIUM_USER = False
     user = ""
@@ -512,8 +511,6 @@ bot = tgClient(
     max_concurrent_transmissions=10,
 ).start()
 bot_loop = bot.loop
-bot_name = bot.me.username
-info(f"Memulai Bot @{bot_name}....")
 
 scheduler = AsyncIOScheduler(timezone=str(get_localzone()), event_loop=bot_loop)
 
