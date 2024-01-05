@@ -61,55 +61,126 @@ from .modules import (
 
 
 async def stats(_, message):
-    if await aiopath.exists(".git"):
-        last_commit = await cmd_exec(
-            "git log -1 --date=short --pretty=format:'%cd <b>From</b> %cr'", True
-        )
-        last_commit = last_commit[0]
-    else:
-        last_commit = "No UPSTREAM_REPO"
-    total, used, free, disk = disk_usage("/")
-    swap = swap_memory()
-    memory = virtual_memory()
-    stats = (
-        f"<b>Commit Date:</b> {last_commit}\n\n"
-        f"<b>Bot Uptime:</b> {get_readable_time(time() - botStartTime)}\n"
-        f"<b>OS Uptime:</b> {get_readable_time(time() - boot_time())}\n\n"
-        f"<b>Total Disk Space:</b> {get_readable_file_size(total)}\n"
-        f"<b>Used:</b> {get_readable_file_size(used)} | <b>Free:</b> {get_readable_file_size(free)}\n\n"
-        f"<b>Upload:</b> {get_readable_file_size(net_io_counters().bytes_sent)}\n"
-        f"<b>Download:</b> {get_readable_file_size(net_io_counters().bytes_recv)}\n\n"
-        f"<b>CPU:</b> {cpu_percent(interval=0.5)}%\n"
-        f"<b>RAM:</b> {memory.percent}%\n"
-        f"<b>DISK:</b> {disk}%\n\n"
-        f"<b>Physical Cores:</b> {cpu_count(logical=False)}\n"
-        f"<b>Total Cores:</b> {cpu_count(logical=True)}\n\n"
-        f"<b>SWAP:</b> {get_readable_file_size(swap.total)} | <b>Used:</b> {swap.percent}%\n"
-        f"<b>Memory Total:</b> {get_readable_file_size(memory.total)}\n"
-        f"<b>Memory Free:</b> {get_readable_file_size(memory.available)}\n"
-        f"<b>Memory Used:</b> {get_readable_file_size(memory.used)}\n"
-    )
-    await sendMessage(message, stats)
-
-
-async def start(client, message):
+async def stats(_, message, edit_mode=False):
     buttons = ButtonMaker()
-    buttons.ubutton("Repo", "https://www.github.com/anasty17/mirror-leech-telegram-bot")
-    buttons.ubutton("Owner", "https://t.me/anas_tayyar")
+    sysTime     = get_readable_time(time() - boot_time())
+    botTime     = get_readable_time(time() - botStartTime)
+    total, used, free, disk = disk_usage('/')
+    total       = get_readable_file_size(total)
+    used        = get_readable_file_size(used)
+    free        = get_readable_file_size(free)
+    sent        = get_readable_file_size(net_io_counters().bytes_sent)
+    recv        = get_readable_file_size(net_io_counters().bytes_recv)
+    tb          = get_readable_file_size(net_io_counters().bytes_sent + net_io_counters().bytes_recv)
+    cpuUsage    = cpu_percent(interval=0.1)
+    v_core      = cpu_count(logical=True) - cpu_count(logical=False)
+    freq_info   = cpu_freq(percpu=False)
+    if freq_info is not None:
+        frequency = freq_info.current / 1000
+    else:
+        frequency = '-_-'
+    memory      = virtual_memory()
+    mem_p       = memory.percent
+    swap        = swap_memory()
+
+    bot_stats = f'<b><i><u>Mirrorin Bot Statistics</u></i></b>\n\n'\
+                f'<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n' \
+                f'<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n' \
+                f'<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n' \
+                f'<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n' \
+                f'<code>┌ Bot Uptime      : </code> {botTime}\n' \
+                f'<code>├ Uploaded        : </code> {sent}\n' \
+                f'<code>├ Downloaded      : </code> {recv}\n' \
+                f'<code>└ Total Bandwidth : </code> {tb}'
+
+    sys_stats = f'<b><i><u>Mirrorin System Statistics</u></i></b>\n\n'\
+                f'<b>┌ System Uptime:</b> <code>{sysTime}</code>\n' \
+                f'<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n' \
+                f'<b>├ CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n' \
+                f'<b>├ P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | ' \
+                f'<b>V-Core(s):</b> <code>{v_core}</code>\n' \
+                f'<b>└ Frequency:</b> <code>{frequency} GHz</code>\n\n' \
+                f'<b>┌ RAM:</b> {get_progress_bar_string(mem_p)}<code> {mem_p}%</code>\n' \
+                f'<b>└ Total:</b> <code>{get_readable_file_size(memory.total)}</code> | ' \
+                f'<b>Free:</b> <code>{get_readable_file_size(memory.available)}</code>\n\n' \
+                f'<b>┌ SWAP:</b> {get_progress_bar_string(swap.percent)}<code> {swap.percent}%</code>\n' \
+                f'<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | ' \
+                f'<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n' \
+                f'<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n' \
+                f'<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>'
+
+    buttons.ibutton("Sys Stats",  "show_sys_stats")
+    buttons.ibutton("Creadit", "show_creadit")
+    buttons.ibutton("Close", "close_signal")
+    sbtns = buttons.build_menu(2)
+    if not edit_mode:
+        await message.reply(bot_stats, reply_markup=sbtns)
+    return bot_stats, sys_stats
+
+
+async def send_bot_stats(_, query):
+    buttons = ButtonMaker()
+    bot_stats, _ = await stats(_, query.message, edit_mode=True)
+    buttons.ibutton("Sys Stats",  "show_sys_stats")
+    buttons.ibutton("Creadit", "show_creadit")
+    buttons.ibutton("Close", "close_signal")
+    sbtns = buttons.build_menu(2)
+    await query.answer()
+    await query.message.edit_text(bot_stats, reply_markup=sbtns)
+
+
+async def send_sys_stats(_, query):
+    buttons = ButtonMaker()
+    _, sys_stats = await stats(_, query.message, edit_mode=True)
+    buttons.ibutton("Bot Stats",  "show_bot_stats")
+    buttons.ibutton("Creadit", "show_creadit")
+    buttons.ibutton("Close", "close_signal")
+    sbtns = buttons.build_menu(2)
+    await query.answer()
+    await query.message.edit_text(sys_stats, reply_markup=sbtns)
+
+
+async def send_creadit(_, query)
+   buttons = ButtonMaker()
+   creadit = f'<b>Creadit </b>\n\n'\
+             f'<b>Base Repo </b>\n'\
+             f'<blockquote><b>┌ Anas</b> \n<b>└ Github :</b><code>https://github.com/anasty17</code></blockquote>\n\n'\
+             f'<b>Edit & Modded </b>\n'
+             f'<blockquote><b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b> \n<b>├ Github :</b><code>https://github.com/saemfvck</code> \n<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n<b>└ Github :</b><code>https://github.com/ZeynDev<code></blockquote>\n'
+   buttons.ibutton("Bot Stats", "show_bot_stats")
+   buttons.ibutton("Sys Stats", "show_sys_stats")
+   buttons.ibutton("Close", "close_signal")
+   sbtns = buttons.build_menu(2)
+    await query.answer()
+    await query.message.edit_text(creadit, reply_markup=sbtns)
+
+
+async def send_close_signal(_, query):
+    await query.answer()
+    try:
+        await query.message.reply_to_message.delete()
+    except Exception as e:
+        LOGGER.error(e)
+    await query.message.delete()
+    
+    async def start(client, message):
+    buttons = ButtonMaker()
+    buttons.ubutton("Channel", "https://t.me/DriveMirrorLeech")
+    buttons.ubutton("Owner", "http://t.me/MathiasFelice")
+    buttons.ubutton("Owner 2", "http://t.me/Eritsuu")
+    buttons.ubutton("Group", "https://t.me/Mirrorinleech")
     reply_markup = buttons.build_menu(2)
     if await CustomFilters.authorized(client, message):
         start_string = f"""
-This bot can mirror all your links|files|torrents to Google Drive or any rclone cloud or to telegram.
-Type /{BotCommands.HelpCommand} to get a list of available commands
+Bot ini dapat mencerminkan semua tautan|file|torrent Anda ke Google Drive atau rclone cloud atau ke telegram. Ketik /{BotCommands.HelpCommand} untuk mendapatkan daftar perintah yang tersedia
 """
         await sendMessage(message, start_string, reply_markup)
     else:
         await sendMessage(
             message,
-            "You Are not authorized user! Deploy your own mirror-leech bot",
+            "Maaf, Kamu tidak diizinkan menggunakan bot ini di PM. Gunakanlah bot ini digroup yang telah disediakan.",
             reply_markup,
         )
-
 
 async def restart(_, message):
     restart_message = await sendMessage(message, "Restarting...")
