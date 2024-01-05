@@ -112,7 +112,7 @@ async def stats(_, message, edit_mode=False):
               f'<b>Base Repo </b>\n'\
               f'<blockquote><b>┌ Anas</b> \n<b>└ Github :</b><code>https://github.com/anasty17</code></blockquote>\n\n'\
               f'<b>Edit & Modded </b>\n'\
-              f'<blockquote><b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b> \n<b>├ Github :</b><code>https://github.com/saemfvck</code> \n<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n<b>└ Github :</b><code>https://github.com/ZeynDev</code></blockquote>\n'
+              f'<blockquote><b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>\n<b>├ Github :</b><code>https://github.com/saemfvck</code>\n<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n<b>└ Github :</b><code>https://github.com/ZeynDev</code></blockquote>\n'
  
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
