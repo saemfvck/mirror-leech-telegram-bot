@@ -116,7 +116,7 @@ async def stats(_, message, edit_mode=False):
  
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Creadit", "show_sys_credit")
+    buttons.ibutton("Credit", "show_sys_credit")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     if not edit_mode:
@@ -128,7 +128,7 @@ async def send_bot_stats(_, query):
     buttons = ButtonMaker()
     bot_stats, _ = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Creadit", "show_sys_credit")
+    buttons.ibutton("Credit", "show_sys_credit")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
