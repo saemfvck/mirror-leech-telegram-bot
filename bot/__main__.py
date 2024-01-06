@@ -61,6 +61,13 @@ from .modules import (
 
 
 async def stats(_, message, edit_mode=False):
+    if await aiopath.exists(".git"):
+        last_commit = await cmd_exec(
+            "git log -1 --date=short --pretty=format:'%cd <b>From</b> %cr'", True
+        )
+        last_commit = last_commit[0]
+    else:
+        last_commit = "No UPSTREAM_REPO"
     buttons = ButtonMaker()
     sysTime     = get_readable_time(time() - boot_time())
     botTime     = get_readable_time(time() - botStartTime)
@@ -82,42 +89,47 @@ async def stats(_, message, edit_mode=False):
     mem_p       = memory.percent
     swap        = swap_memory()
 
-    bot_stats = f"<b>Mirrorin Bot Statistics</b>\n\n"\
-                f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" \
-                f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" \
-                f"<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n" \
-                f"<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n" \
-                f"<code>┌ Bot Uptime      : </code> {botTime}\n" \
-                f"<code>├ Uploaded        : </code> {sent}\n" \
-                f"<code>├ Downloaded      : </code> {recv}\n" \
-                f"<code>└ Total Bandwidth : </code> {tb}"
+    bot_stats = (
+        f"<b>Mirrorin Bot Statistics</b>\n\n"\
+        f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" \
+        f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" \
+        f"<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n" \
+        f"<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n" \
+        f"<code>┌ Bot Uptime      : </code> {botTime}\n" \
+        f"<code>├ Uploaded        : </code> {sent}\n" \
+        f"<code>├ Downloaded      : </code> {recv}\n" \
+        f"<code>└ Total Bandwidth : </code> {tb}"
+    )
 
-    sys_stats = f"<b>Mirrorin System Statistics</b>\n\n"\
-                f"<b>┌ System Uptime:</b> <code>{sysTime}</code>\n" \
-                f"<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n" \
-                f"<b>├ CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n" \
-                f"<b>├ P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | " \
-                f"<b>V-Core(s):</b> <code>{v_core}</code>\n" \
-                f"<b>└ Frequency:</b> <code>{frequency} GHz</code>\n\n" \
-                f"<b>┌ RAM:</b> {get_progress_bar_string(mem_p)}<code> {mem_p}%</code>\n" \
-                f"<b>└ Total:</b> <code>{get_readable_file_size(memory.total)}</code> | " \
-                f"<b>Free:</b> <code>{get_readable_file_size(memory.available)}</code>\n\n" \
-                f"<b>┌ SWAP:</b> {get_progress_bar_string(swap.percent)}<code> {swap.percent}%</code>\n" \
-                f"<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | " \
-                f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" \
-                f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" \
-                f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>"
+    sys_stats = (
+        f"<b>Mirrorin System Statistics</b>\n\n"
+        f"<b>┌ System Uptime:</b> <code>{sysTime}</code>\n" 
+        f"<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n" 
+        f"<b>├ CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n" 
+        f"<b>├ P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | " 
+        f"<b>V-Core(s):</b> <code>{v_core}</code>\n" 
+        f"<b>└ Frequency:</b> <code>{frequency} GHz</code>\n\n" 
+        f"<b>┌ RAM:</b> {get_progress_bar_string(mem_p)}<code> {mem_p}%</code>\n" 
+        f"<b>└ Total:</b> <code>{get_readable_file_size(memory.total)}</code> | "
+        f"<b>Free:</b> <code>{get_readable_file_size(memory.available)}</code>\n\n" 
+        f"<b>┌ SWAP:</b> {get_progress_bar_string(swap.percent)}<code> {swap.percent}%</code>\n" 
+        f"<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | " 
+        f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" 
+        f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" 
+        f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>"
+    )
 
- credit_stats = f"<b>Credit </b>\n" \
-                 f"<blockquote><b>Base Repo </b></blockquote>\n" \
-                 f"<b>┌ Anas</b>\n" \
-                 f"<b>└ Github :</b>[Here](https://github.com/anasty17)\n\n" \
-                 f"<blockquote><b>Edit & Modded </b></blockquote>\n" \
-                 f"<b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>\n" \
-                 f"<b>├ Github :</b>[Here](https://github.com/saemfvck)\n" \
-                 f"<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n" \
-                 f"<b>└ Github :</b>[Here](https://github.com/ZeynDev)\n"
-              
+ credit_stats = (
+     f"<b>Credit </b>\n"
+     f"<blockquote><b>Base Repo </b></blockquote>\n"  
+     f"<b>┌ Anas</b>\n" 
+     f"<b>└ Github :</b>[Here](https://github.com/anasty17)\n\n" 
+     f"<blockquote><b>Edit & Modded </b></blockquote>\n" 
+     f"<b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>\n"
+     f"<b>├ Github :</b>[Here](https://github.com/saemfvck)\n" 
+     f"<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n" 
+     f"<b>└ Github :</b>[Here](https://github.com/ZeynDev)\n"
+ )          
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
     buttons.ibutton("Credit", "show_credit_stats")
@@ -125,7 +137,7 @@ async def stats(_, message, edit_mode=False):
     sbtns = buttons.build_menu(2)
     if not edit_mode:
         await message.reply(bot_stats, reply_markup=sbtns)
-    return bot_stats, sys_stats
+    return bot_stats, sys_stats, credit_stats
 
 
 async def send_bot_stats(_, query):
@@ -152,7 +164,7 @@ async def send_sys_stats(_, query):
 
 async def send_credit_stats(_, query):
     buttons = ButtonMaker()
-    credit_stats, _ = await stats(_, query.message, edit_mode=True)
+    _, credit_stats = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Bot Stats", "show_bot_stats")
     buttons.ibutton("Sys Stats", "show_sys_stats")
     buttons.ibutton("Close", "close_signal")
