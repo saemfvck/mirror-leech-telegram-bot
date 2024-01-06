@@ -60,7 +60,7 @@ from .modules import (
 )
 
 
-async def stats(_, message, edit_mode=False):
+async def stats(_, message):
     if await aiopath.exists(".git"):
         last_commit = await cmd_exec(
             "git log -1 --date=short --pretty=format:'%cd <b>From</b> %cr'", True
