@@ -108,19 +108,17 @@ async def stats(_, message, edit_mode=False):
                 f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" \
                 f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>"
 
- credit_stats = f"""
-                 <blockquote>
-                 <b>Credit </b>
-                 <b>Base Repo </b>
-                 <b>┌ Anas</b>
-                 <b>└ Github :</b>[Here](https://github.com/anasty17)
-                 <b>Edit & Modded </b>
-                 <b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>
-                 <b>├ Github :</b>[Here](https://github.com/saemfvck)
-                 <b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>
+ credit_stats = f"<blockquote><b>Credit </b>\n
+                 <b>Base Repo </b>\n
+                 <b>┌ Anas</b>\n
+                 <b>└ Github :</b>[Here](https://github.com/anasty17)\n\n
+                 <b>Edit & Modded </b>\n
+                 <b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>\n
+                 <b>├ Github :</b>[Here](https://github.com/saemfvck)\n
+                 <b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n
                  <b>└ Github :</b>[Here](https://github.com/ZeynDev)
-                 </blockquote>
-                 """
+                 </blockquote>\n"
+              
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
     buttons.ibutton("Credit", "show_credit_stats")
