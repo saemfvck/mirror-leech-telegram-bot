@@ -107,36 +107,22 @@ async def stats(_, message, edit_mode=False):
                 f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" \
                 f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" \
                 f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>"
-
-    credit_stats = f"""
-                 <blockquote>
-                 <b>Credit </b>
-                 <b>Base Repo </b>
-                 <b>┌ Anas</b>
-                 <b>└ Github :</b>[Here](https://github.com/anasty17)
-                 <b>Edit & Modded </b>
-                 <b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>
-                 <b>├ Github :</b>[Here](https://github.com/saemfvck)
-                 <b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>
-                 <b>└ Github :</b>[Here](https://github.com/ZeynDev)
-                 </blockquote>
-                 """
  
 
     buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Credit", "show_credit_stats")
+    #buttons.ibutton("Credit", "show_credit_stats")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     if not edit_mode:
         await message.reply(bot_stats, reply_markup=sbtns)
-    return bot_stats, sys_stats, credit_stats
+    return bot_stats, sys_stats
 
 
 async def send_bot_stats(_, query):
     buttons = ButtonMaker()
     bot_stats, _ = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Credit", "show_credit_stats")
+    #buttons.ibutton("Credit", "show_credit_stats")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
@@ -147,22 +133,11 @@ async def send_sys_stats(_, query):
     buttons = ButtonMaker()
     _, sys_stats = await stats(_, query.message, edit_mode=True)
     buttons.ibutton("Bot Stats",  "show_bot_stats")
-    buttons.ibutton("Credit", "show_credit_stats")
+    #buttons.ibutton("Credit", "show_credit_stats")
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
     await query.editMessage_text(sys_stats, reply_markup=sbtns)
-
-
-async def send_credit_stats(_, query):
-   buttons = ButtonMaker()
-   credit_stats, _ = await stats(_, query.message, edit_mode=True)
-   buttons.ibutton("Bot Stats", "show_bot_stats")
-   buttons.ibutton("Sys Stats", "show_sys_stats")
-   buttons.ibutton("Close", "close_signal")
-   sbtns = buttons.build_menu(2)
-   await query.answer()
-   await query.editMessage_text(credit_stats, reply_markup=sbtns)
 
 
 async def send_close_signal(_, query):
