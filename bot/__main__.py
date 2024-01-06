@@ -89,14 +89,14 @@ async def stats(_, message):
     swap        = swap_memory()
     
 stats = (
-        f"<b>Mirrorin Bot Statistics</b>\n\n"\
-        f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" \
-        f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" \
-        f"<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n" \
-        f"<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n" \
-        f"<code>┌ Bot Uptime      : </code> {botTime}\n" \
-        f"<code>├ Uploaded        : </code> {sent}\n" \
-        f"<code>├ Downloaded      : </code> {recv}\n" \
+        f"<b>Mirrorin Bot Statistics</b>\n\n"
+        f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" 
+        f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" 
+        f"<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n" 
+        f"<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n" 
+        f"<code>┌ Bot Uptime      : </code> {botTime}\n" 
+        f"<code>├ Uploaded        : </code> {sent}\n" 
+        f"<code>├ Downloaded      : </code> {recv}\n" 
         f"<code>└ Total Bandwidth : </code> {tb}\n\n"
         f"<b>Mirrorin System Statistics</b>\n\n"
         f"<b>┌ System Uptime:</b> <code>{sysTime}</code>\n" 
