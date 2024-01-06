@@ -140,7 +140,7 @@ async def send_bot_stats(_, query):
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
-    await query.message.edit_text(bot_stats, reply_markup=sbtns)
+    await query.editMessage_text(bot_stats, reply_markup=sbtns)
 
 
 async def send_sys_stats(_, query):
@@ -151,7 +151,7 @@ async def send_sys_stats(_, query):
     buttons.ibutton("Close", "close_signal")
     sbtns = buttons.build_menu(2)
     await query.answer()
-    await query.message.edit_text(sys_stats, reply_markup=sbtns)
+    await query.editMessage_text(sys_stats, reply_markup=sbtns)
 
 
 async def send_credit_stats(_, query):
@@ -162,7 +162,7 @@ async def send_credit_stats(_, query):
    buttons.ibutton("Close", "close_signal")
    sbtns = buttons.build_menu(2)
    await query.answer()
-   await query.message.edit_text(credit_stats, reply_markup=sbtns)
+   await query.editMessage_text(credit_stats, reply_markup=sbtns)
 
 
 async def send_close_signal(_, query):
