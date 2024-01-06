@@ -68,7 +68,6 @@ async def stats(_, message, edit_mode=False):
         last_commit = last_commit[0]
     else:
         last_commit = "No UPSTREAM_REPO"
-    buttons = ButtonMaker()
     sysTime     = get_readable_time(time() - boot_time())
     botTime     = get_readable_time(time() - botStartTime)
     total, used, free, disk = disk_usage('/')
@@ -88,8 +87,8 @@ async def stats(_, message, edit_mode=False):
     memory      = virtual_memory()
     mem_p       = memory.percent
     swap        = swap_memory()
-
-    bot_stats = (
+    
+stats = (
         f"<b>Mirrorin Bot Statistics</b>\n\n"\
         f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" \
         f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" \
@@ -98,10 +97,7 @@ async def stats(_, message, edit_mode=False):
         f"<code>┌ Bot Uptime      : </code> {botTime}\n" \
         f"<code>├ Uploaded        : </code> {sent}\n" \
         f"<code>├ Downloaded      : </code> {recv}\n" \
-        f"<code>└ Total Bandwidth : </code> {tb}"
-    )
-
-    sys_stats = (
+        f"<code>└ Total Bandwidth : </code> {tb}\n\n"
         f"<b>Mirrorin System Statistics</b>\n\n"
         f"<b>┌ System Uptime:</b> <code>{sysTime}</code>\n" 
         f"<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n" 
@@ -116,10 +112,7 @@ async def stats(_, message, edit_mode=False):
         f"<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | " 
         f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" 
         f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" 
-        f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>"
-    )
-
- credit_stats = (
+        f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>\n\n"
      f"<b>Credit </b>\n"
      f"<blockquote><b>Base Repo </b></blockquote>\n"  
      f"<b>┌ Anas</b>\n" 
@@ -130,59 +123,9 @@ async def stats(_, message, edit_mode=False):
      f"<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n" 
      f"<b>└ Github :</b>[Here](https://github.com/ZeynDev)\n"
  )          
-
-    buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Credit", "show_credit_stats")
-    buttons.ibutton("Close", "close_signal")
-    sbtns = buttons.build_menu(2)
-    if not edit_mode:
-        await message.reply(bot_stats, reply_markup=sbtns)
-    return bot_stats, sys_stats, credit_stats
-
-
-async def send_bot_stats(_, query):
-    buttons = ButtonMaker()
-    bot_stats, _ = await stats(_, query.message, edit_mode=True)
-    buttons.ibutton("Sys Stats",  "show_sys_stats")
-    buttons.ibutton("Credit", "show_credit_stats")
-    buttons.ibutton("Close", "close_signal")
-    sbtns = buttons.build_menu(2)
-    await query.answer()
-    await query.editMessage_text(bot_stats, reply_markup=sbtns)
-
-
-async def send_sys_stats(_, query):
-    buttons = ButtonMaker()
-    _, sys_stats = await stats(_, query.message, edit_mode=True)
-    buttons.ibutton("Bot Stats",  "show_bot_stats")
-    #buttons.ibutton("Credit", "show_credit_stats")
-    buttons.ibutton("Close", "close_signal")
-    sbtns = buttons.build_menu(2)
-    await query.answer()
-    await query.editMessage_text(sys_stats, reply_markup=sbtns)
-
-
-async def send_credit_stats(_, query):
-    buttons = ButtonMaker()
-    _, credit_stats = await stats(_, query.message, edit_mode=True)
-    buttons.ibutton("Bot Stats", "show_bot_stats")
-    buttons.ibutton("Sys Stats", "show_sys_stats")
-    buttons.ibutton("Close", "close_signal")
-    sbtns = buttons.build_menu(2)
-    await query.answer()
-    await query.editMessage_text(credit_stats, reply_markup=sbtns)
-
-
-async def send_close_signal(_, query):
-    await query.answer()
-    try:
-        await query.message.reply_to_message.delete()
-    except Exception as e:
-        LOGGER.error(e)
-    await query.message.delete()
-
-    
-    async def start(client, message):
+await sendMessage(message, stats)
+   
+async def start(client, message):
     buttons = ButtonMaker()
     buttons.ubutton("Channel", "https://t.me/DriveMirrorLeech")
     buttons.ubutton("Owner", "http://t.me/MathiasFelice")
@@ -364,10 +307,6 @@ async def main():
             stats, filters=command(BotCommands.StatsCommand) & CustomFilters.authorized
         )
     )
-    bot.add_handler(CallbackQueryHandler(send_close_signal, filters=regex("^close_signal")))
-    bot.add_handler(CallbackQueryHandler(send_bot_stats, filters=regex("^show_bot_stats")))
-    bot.add_handler(CallbackQueryHandler(send_sys_stats, filters=regex("^show_sys_stats")))
-    bot.add_handler(CallbackQueryHandler(send_credit_stats, filters=regex("^show_credit_stats")))
     LOGGER.info("Bot Telah Online!")
     signal(SIGINT, exit_clean_up)
 
