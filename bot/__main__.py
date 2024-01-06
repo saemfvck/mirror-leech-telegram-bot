@@ -68,62 +68,38 @@ async def stats(_, message):
         last_commit = last_commit[0]
     else:
         last_commit = "No UPSTREAM_REPO"
-    sysTime     = get_readable_time(time() - boot_time())
-    botTime     = get_readable_time(time() - botStartTime)
-    total, used, free, disk = disk_usage('/')
-    total       = get_readable_file_size(total)
-    used        = get_readable_file_size(used)
-    free        = get_readable_file_size(free)
-    sent        = get_readable_file_size(net_io_counters().bytes_sent)
-    recv        = get_readable_file_size(net_io_counters().bytes_recv)
-    tb          = get_readable_file_size(net_io_counters().bytes_sent + net_io_counters().bytes_recv)
-    cpuUsage    = cpu_percent(interval=0.1)
-    v_core      = cpu_count(logical=True) - cpu_count(logical=False)
-    freq_info   = cpu_freq(percpu=False)
-    if freq_info is not None:
-        frequency = freq_info.current / 1000
-    else:
-        frequency = '-_-'
-    memory      = virtual_memory()
-    mem_p       = memory.percent
-    swap        = swap_memory()
+    total, used, free, disk = disk_usage("/")
+    swap = swap_memory()
+    memory = virtual_memory()
     
 stats = (
-        f"<b>Mirrorin Bot Statistics</b>\n\n"
-        f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpuUsage}%\n" 
-        f"<code>├ RAM  : {get_progress_bar_string(mem_p)}</code> {mem_p}%\n" 
+        f"<b>Mirrorin Bot Statistics</b>\n"
+        f"<code>┌ CPU  : {get_progress_bar_string(cpu_percent(interval=0.1))}</code> {cpu_percent(interval=0.1)}%\n" 
+        f"<code>├ RAM  : {get_progress_bar_string(memory.percent)}</code> {memory.percent}%\n" 
         f"<code>├ SWAP : {get_progress_bar_string(swap.percent)}</code> {swap.percent}%\n" 
         f"<code>└ DISK : {get_progress_bar_string(disk)}</code> {disk}%\n\n" 
-        f"<code>┌ Bot Uptime      : </code> {botTime}\n" 
-        f"<code>├ Uploaded        : </code> {sent}\n" 
-        f"<code>├ Downloaded      : </code> {recv}\n" 
-        f"<code>└ Total Bandwidth : </code> {tb}\n\n"
-        f"<b>Mirrorin System Statistics</b>\n\n"
-        f"<b>┌ System Uptime:</b> <code>{sysTime}</code>\n" 
-        f"<b>├ CPU:</b> {get_progress_bar_string(cpuUsage)}<code> {cpuUsage}%</code>\n" 
+        f"<code>┌ Bot Uptime      : </code> {get_readable_time(time() - botStartTime())}\n" 
+        f"<code>├ Uploaded        : </code> {get_readable_file_size(net_io_counters().bytes_sent)}\n" 
+        f"<code>├ Downloaded      : </code> {get_readable_file_size(net_io_counters().bytes_recv)}\n" 
+        f"<code>└ Total Bandwidth : </code> {get_readable_file_size(net_io_counters().bytes_sent + net_io_counters().bytes_recv)}\n\n"
+        f"<b>Mirrorin System Statistics</b>\n"
+        f"<b>┌ System Uptime:</b> <code>{get_readable_time(time() - boot_time())}</code>\n" 
+        f"<b>├ CPU:</b> {get_progress_bar_string(cpu_percent(interval=0.1))}<code> {cpu_percent(interval=0.1)}%</code>\n" 
         f"<b>├ CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n" 
         f"<b>├ P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | " 
-        f"<b>V-Core(s):</b> <code>{v_core}</code>\n" 
-        f"<b>└ Frequency:</b> <code>{frequency} GHz</code>\n\n" 
-        f"<b>┌ RAM:</b> {get_progress_bar_string(mem_p)}<code> {mem_p}%</code>\n" 
+        f"<b>V-Core(s):</b> <code>{cpu_count(logical=True) - cpu_count(logical=False)}</code>\n" 
+        f"<b>└ Frequency:</b> <code>{freq_info.current / 1000} GHz</code>\n\n" 
+        f"<b>┌ RAM:</b> {get_progress_bar_string(memory.percent)}<code> {memory.percent}%</code>\n" 
         f"<b>└ Total:</b> <code>{get_readable_file_size(memory.total)}</code> | "
         f"<b>Free:</b> <code>{get_readable_file_size(memory.available)}</code>\n\n" 
         f"<b>┌ SWAP:</b> {get_progress_bar_string(swap.percent)}<code> {swap.percent}%</code>\n" 
         f"<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | " 
         f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" 
         f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" 
-        f"<b>└ Total:</b> <code>{total}</code> | <b>Free:</b> <code>{free}</code>\n\n"
-     f"<b>Credit </b>\n"
-     f"<blockquote><b>Base Repo </b></blockquote>\n"  
-     f"<b>┌ Anas</b>\n" 
-     f"<b>└ Github :</b>[Here](https://github.com/anasty17)\n\n" 
-     f"<blockquote><b>Edit & Modded </b></blockquote>\n" 
-     f"<b>┌ 𝐊𝐚𝐥𝐚𝐲𝐮𝐤𝐢-𝐅𝐞𝐥𝐢𝐜𝐞はなぶさ建設</b>\n"
-     f"<b>├ Github :</b>[Here](https://github.com/saemfvck)\n" 
-     f"<b>├ ➤ 𝐄𝐫𝐢𝐭𝐬𝐮 𝐊𝐢𝐤𝐮𝐲𝐚</b>\n" 
-     f"<b>└ Github :</b>[Here](https://github.com/ZeynDev)\n"
+        f"<b>└ Total:</b> <code>{get_readable_file_size(total)}</code> | <b>Free:</b> <code>{get_readable_file_size(free)}</code>\n\n"       
  )          
 await sendMessage(message, stats)
+
    
 async def start(client, message):
     buttons = ButtonMaker()
