@@ -85,6 +85,9 @@ async def stats(_, message):
         frequency = freq_info.current / 1000
     else:
         frequency = '-_-'
+    memory      = virtual_memory()
+    mem_p       = memory.percent
+    swap        = swap_memory()
     stats = (
         f"<b>Mirrorin Bot Statistics</b>\n"
         f"<code>┌ CPU  : {get_progress_bar_string(cpuUsage)}</code> {cpu_percent(cpuUsage)}%\n" 
