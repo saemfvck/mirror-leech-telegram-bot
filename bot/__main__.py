@@ -15,6 +15,7 @@ from psutil import (
     virtual_memory,
     net_io_counters,
     boot_time,
+    cpu_freq,
 )
 
 from .helper.mirror_utils.rclone_utils.serve import rclone_serve_booter
