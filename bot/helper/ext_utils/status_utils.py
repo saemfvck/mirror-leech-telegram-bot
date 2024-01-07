@@ -145,7 +145,7 @@ def get_readable_message(sid, is_user, page_no=1, status="All", page_step=1):
             msg += f"\n<b>├ 🧤 Processed:</b> {task.processed_bytes()} of {task.size()}"
             msg += f"\n<b>├ 🧩 Speed:</b> {task.speed()}"
             msg += f"\n<b>├ ⏳ ETA:</b> {task.eta()}"
-            msg += f"\n<b>├ ⌛ Elapsed:</b> {get_readable_time(elapsed)}"
+            msg += f"\n<b>├ ⌛ Elapsed:</b> {get_readable_time(time() - download.message.date.timestamp())}"
             if hasattr(task, "seeders_num"):
                 try:
                     msg += f"\n<b>├ 🌿 S/L:</b> {task.seeders_num()}/{task.leechers_num()}"
