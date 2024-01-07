@@ -71,8 +71,7 @@ async def stats(_, message):
     total, used, free, disk = disk_usage("/")
     swap = swap_memory()
     memory = virtual_memory()
-    
-stats = (
+    stats = (
         f"<b>Mirrorin Bot Statistics</b>\n"
         f"<code>┌ CPU  : {get_progress_bar_string(cpu_percent(interval=0.1))}</code> {cpu_percent(interval=0.1)}%\n" 
         f"<code>├ RAM  : {get_progress_bar_string(memory.percent)}</code> {memory.percent}%\n" 
@@ -96,9 +95,9 @@ stats = (
         f"<b>└ Total</b> <code>{get_readable_file_size(swap.ttotal)}</code> | " 
         f"<b>Free:</b> <code>{get_readable_file_size(swap.free)}</code>\n\n" 
         f"<b>┌ DISK:</b> {get_progress_bar_string(disk)}<code> {disk}%</code>\n" 
-        f"<b>└ Total:</b> <code>{get_readable_file_size(total)}</code> | <b>Free:</b> <code>{get_readable_file_size(free)}</code>\n\n"       
- )          
-await sendMessage(message, stats)
+        f"<b>└ Total:</b> <code>{get_readable_file_size(total)}</code> | <b>Free:</b> <code>{get_readable_file_size(free)}</code>\n\n"
+    )
+    await sendMessage(message, stats)
 
    
 async def start(client, message):
